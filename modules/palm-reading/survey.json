@@ -1,0 +1,152 @@
+{
+  "title": "🔮 Palm Reading Insight",
+  "showQuestionNumbers": "on",
+  "progressBarType": "pages",
+  "startSurveyText": "Begin Your Reading",
+  "completedHtml": "<h3>✨ Thank you for your submission!</h3><p>Your personalized palm reading will be revealed soon.</p>",
+  "pages": [
+    {
+      "name": "intro",
+      "elements": [
+        {
+          "type": "html",
+          "name": "introText",
+          "html": "<h3>🧘‍♀️ Welcome to your palm reading journey!</h3><p>Take a breath. This is a moment just for you. Your hand holds stories waiting to be seen. Ready to uncover what your energy reveals?</p>"
+        },
+        {
+          "type": "text",
+          "name": "name",
+          "title": "What's your first name?",
+          "isRequired": true
+        },
+        {
+          "type": "text",
+          "name": "email",
+          "title": "What's your email address?",
+          "inputType": "email",
+          "isRequired": true
+        },
+        {
+          "type": "dropdown",
+          "name": "gender",
+          "title": "How do you identify?",
+          "isRequired": true,
+          "choices": [
+            "Woman",
+            "Man",
+            "Prefer not to say. I want to keep it misterious."
+          ]
+        },
+        {
+          "type": "checkbox",
+          "name": "gdpr_consent",
+          "title": "GDPR & Privacy",
+          "isRequired": true,
+          "choices": [
+            "I agree to the privacy policy and to receive occasional emails about my results and related insights."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "image_capture",
+      "elements": [
+        {
+          "type": "html",
+          "name": "palmInstructions",
+          "html": "<div id='palmInstructions'>\n<h3>🖐️ How to Take the Perfect Palm Photo</h3>\n<ul style='padding-left: 20px;'>\n<li>Use your <strong>left hand</strong></li>\n<li>Ensure <strong>good lighting</strong> (avoid shadows)</li>\n<li><strong>Stretch your fingers</strong> comfortably</li>\n<li><strong>Remove accessories</strong> like rings</li>\n<li>Keep your <strong>entire palm</strong> visible</li>\n</ul>\n<img src='/wp-content/plugins/holistic-ai-experiences/assets/hand.webp' alt='Hand example' style='max-width: 300px; width: 100%; height: auto; margin-top: 10px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);' />\n<p style='margin-top: 15px; background-color: #fff3cd; color: #856404; padding: 10px; border: 1px solid #ffeeba; border-radius: 6px;'>⚠️ <strong>Important:</strong> If your image is not clear or not a real hand, your palm reading will not be generated. The session will still be counted as used.</p>\n</div>"
+        },
+        {
+          "type": "html",
+          "name": "customPalmCapture",
+          "html": "<h3>📸 Upload or Take a Photo</h3>\n<div id='buttonGroup' style='display: flex; gap: 10px; flex-wrap: wrap;'>\n  <button id='uploadBtn' class='btn-action'>📁 Upload</button>\n  <button id='cameraBtn' class='btn-action'>📷 Take Photo</button>\n  <button id='changeBtn' class='btn-action' style='display: none;'>🔄 Change Photo</button>\n</div>\n<input type='file' id='fileInput' accept='image/*' style='display:none;' />\n<video id='video' width='100%' autoplay playsinline style='display:none; margin-top: 10px;'></video>\n<button id='snapBtn' style='display:none; margin-top: 10px;'>📸 Capture</button>\n<img id='preview' src='' style='max-width: 100%; display:none; margin-top: 20px;' />"
+        },
+        {
+          "type": "hidden",
+          "name": "palm_image"
+        }
+      ]
+    },
+    {
+      "name": "vibe_today",
+      "elements": [
+        {
+          "type": "radiogroup",
+          "name": "vibe_today",
+          "title": "How's your energy today?",
+          "isRequired": true,
+          "choices": [
+            "I'm radiant like the sun 🌞",
+            "A bit cloudy, but steady ☁️",
+            "Scattered, but hopeful ✨",
+            "I feel like hiding under a blanket 🛌"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "intuition_level",
+      "elements": [
+        {
+          "type": "radiogroup",
+          "name": "intuition_level",
+          "title": "Do you often trust your gut?",
+          "isRequired": true,
+          "choices": [
+            "Always — it's my inner compass 🧭",
+            "Sometimes — depends on the mood",
+            "Rarely — I like data and facts",
+            "Never really thought about it 🤷"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "spiritual_style",
+      "elements": [
+        {
+          "type": "radiogroup",
+          "name": "spiritual_style",
+          "title": "What best describes your spiritual side?",
+          "isRequired": true,
+          "choices": [
+            "I'm deeply spiritual and connected 🔮",
+            "I'm curious and open-minded 🤔",
+            "I vibe with nature and energy 🌿",
+            "I'm practical, but open to wonder ✨"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "life_theme",
+      "elements": [
+        {
+          "type": "radiogroup",
+          "name": "life_theme",
+          "title": "What theme resonates with your life right now?",
+          "isRequired": true,
+          "choices": [
+            "Growth 🌱",
+            "Love 💗",
+            "Healing 💧",
+            "Adventure 🌍",
+            "Balance ⚖️"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "free_text",
+      "elements": [
+        {
+          "type": "comment",
+          "name": "free_text",
+          "title": "📝 Anything on your mind or heart you’d like to share?",
+          "isRequired": false,
+          "placeholder": "Write from the soul…"
+        }
+      ]
+    }
+  ]
+}

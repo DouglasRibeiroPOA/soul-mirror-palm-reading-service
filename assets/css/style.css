@@ -1,0 +1,172 @@
+/* =============================================================================
+   Mystical Report — FULL UPDATED STYLESHEET (Rev.2)
+   ============================================================================= */
+
+/* ————————————————————————————————————————————————————
+   1) CSS Variables & Reset
+   ———————————————————————————————————————————————————— */
+:root {
+  --font-base:       'Inter', sans-serif;
+  --purple-light:    #9f7aea;   /* lavender */
+  --purple-dark:     #512DA8;   /* vibrant violet */
+  --yellow-gold:     #D4AF37;   /* metallic gold */
+  --crimson-love:    #C72C48;   /* rich crimson */
+  --beige-bg:        #f5f0e5;   /* soft beige */
+  --gap:             1.25rem;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ————————————————————————————————————————————————————
+   2) Report Container & Typography
+   ———————————————————————————————————————————————————— */
+.thank-you-message {
+  font-family: var(--font-base);
+  background-color: var(--beige-bg);
+  padding: 3rem;
+  border: none;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  max-width: 800px;
+  margin: 2.5rem auto;
+  color: #333;
+  line-height: 1.65;
+}
+
+/* Main heading */
+.thank-you-message h3 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #4a1c1c;
+}
+
+/* ————————————————————————————————————————————————————
+   3) AI-Generated Sections — spacing & indentation
+   ———————————————————————————————————————————————————— */
+/* Section titles */
+.thank-you-message .openai-result h4 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--purple-dark);
+  border-bottom: 3px solid var(--purple-light);
+  padding-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+/* Paragraphs */
+.thank-you-message .openai-result p {
+  font-size: 1.125rem;
+  margin-bottom: 1.25rem;
+  padding-left: 0.25rem;
+}
+
+/* Lists & bullets */
+.thank-you-message .openai-result ul {
+  list-style-type: disc;
+  padding-left: 2rem;       /* indent */
+  margin-bottom: 1.25rem;
+}
+.thank-you-message .openai-result li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+/* CTA styling only for the intro CTA we append in JS */
+.thank-you-message .openai-result .intro-message {
+  font-size: 1.5rem;        /* adjust to taste */
+  font-weight: 800;
+  text-align: center;
+  margin-top: 2rem;
+  color: var(--purple-dark);
+  line-height: 1.35;
+}
+
+/* ————————————————————————————————————————————————————
+   4) Buttons (Equal, Wider, Small Rounding)
+   ———————————————————————————————————————————————————— */
+.report-buttons {
+  display: flex;
+  justify-content: center;
+  gap: var(--gap);
+  margin-top: 2rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+/* Base button style */
+.btn-report {
+  flex: 0 0 200px;             /* fixed width for equality */
+  padding: 1rem;
+  font-family: var(--font-base);
+  font-size: 1.125rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.25rem;      /* small rounding */
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  white-space: normal;         /* allow wrapping */
+  word-break: break-word;
+}
+
+/* Hover & focus */
+.btn-report:hover,
+.btn-report:focus {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  outline: none;
+}
+
+/* Topic-specific colors */
+.btn-topic-love   { background: var(--crimson-love);  color: #fff; }
+.btn-topic-wealth { background: var(--yellow-gold);   color: #1a1a1a; }
+.btn-topic-energy { background: var(--purple-dark);    color: #fff; }
+
+/* ————————————————————————————————————————————————————
+   5) Responsive Behavior
+   ———————————————————————————————————————————————————— */
+@media (max-width: 600px) {
+  /* 1) Buttons stack vertically */
+  .report-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .btn-report {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  /* 2) Container fills the screen with minimal gutters */
+  .thank-you-message {
+    max-width: none;
+    margin: 0.25rem;    /* tiny gutters */
+    padding: 0.75rem;   /* minimal padding */
+  }
+
+  /* 3) Reset inner margins & indents */
+  .thank-you-message .openai-result {
+    margin: 0;
+    font-size: 1.125rem;
+  }
+  .thank-you-message .openai-result p {
+    padding-left: 0;
+  }
+  .thank-you-message .openai-result ul {
+    padding-left: 0.75rem;
+  }
+  .thank-you-message .openai-result li {
+    font-size: inherit;
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+  }
+}
+
+
