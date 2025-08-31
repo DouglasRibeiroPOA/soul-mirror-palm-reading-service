@@ -12,10 +12,33 @@ class HAI_Questionnaire_Handler
         add_action('wp_ajax_hai_handle_subscriber',        [self::class, 'handle_subscriber']);
         add_action('wp_ajax_nopriv_hai_handle_subscriber', [self::class, 'handle_subscriber']);
 
-
         // Single “generate report” endpoint (called on survey completion)
         add_action('wp_ajax_hai_generate_report',        [self::class, 'handle_generate_report']);
         add_action('wp_ajax_nopriv_hai_generate_report', [self::class, 'handle_generate_report']);
+    }
+
+    /**
+     * Build absolute URL on external host (solmir.local), preserving scheme.
+     */
+    private static function external_url(string $path): string
+    {
+        // Ensure leading slash
+        if ($path === '' || $path[0] !== '/') {
+            $path = '/' . ltrim($path, '/');
+        }
+        return 'https://soul-mirror.local' . $path;
+    }
+
+
+    /**
+     * Get the absolute URL of the current request on this host (for return/redirect).
+     */
+    private static function current_absolute_url(): string
+    {
+        $scheme = is_ssl() ? 'https' : 'http';
+        $host   = $_SERVER['HTTP_HOST'] ?? '';
+        $uri    = $_SERVER['REQUEST_URI'] ?? '/';
+        return $scheme . '://' . $host . $uri;
     }
 
     /**
@@ -64,17 +87,23 @@ class HAI_Questionnaire_Handler
             ]);
         }
 
-        // 2) Record exists but no account/profile → show offerings
+        // 2) Record exists but no account/profile → show offerings (on solmir.local)
         if (empty($user->account_id) && empty($user->profile_id)) {
             $set_block($email);
+            $offerings_url = add_query_arg(
+                'show_access_denied',
+                'true',
+                self::external_url('/offerings/')
+            );
             wp_send_json_success([
                 'status'       => 'show_packages',
-                'redirect_url' => home_url('/offerings/?show_access_denied=true'),
+                'redirect_url' => $offerings_url,
             ]);
         }
 
-        // 3) Already has account → send to login page with account_id
-        $login_url = add_query_arg('account_id', urlencode($user->account_id), home_url('/login/'));
+        // 3) Already has account → send to login page with account_id (on solmir.local)
+        $login_base = self::external_url('/login/');
+        $login_url  = add_query_arg('account_id', $user->account_id, $login_base);
 
         $set_block($email);
         wp_send_json_success([
@@ -136,9 +165,13 @@ class HAI_Questionnaire_Handler
         if (!$hasToken) {
             // --- Guest path ---
             if ($already_had_intro) {
-                // Existing email trying to run again as guest → must log in to use credits
+                // Existing email trying to run again as guest → must log in (on solmir.local) to use credits
+                $login_base = self::external_url('/login/');
+                $return_to  = self::current_absolute_url(); // absolute URL back to this host
+                $login_url  = add_query_arg('redirect', $return_to, $login_base);
+
                 wp_send_json_success([
-                    'redirect' => home_url('/login/?redirect=' . urlencode($_SERVER['REQUEST_URI'])),
+                    'redirect' => $login_url,
                 ]);
                 return;
             }
@@ -148,9 +181,13 @@ class HAI_Questionnaire_Handler
             // --- Logged-in path ---
             $sm_user = SM_Account::get_sm_user_from_jwt($token);
             if (!$sm_user) {
-                // Invalid/expired token → login
+                // Invalid/expired token → login (on solmir.local)
+                $login_base = self::external_url('/login/');
+                $return_to  = self::current_absolute_url();
+                $login_url  = add_query_arg('redirect', $return_to, $login_base);
+
                 wp_send_json_success([
-                    'redirect' => home_url('/login/?redirect=' . urlencode($_SERVER['REQUEST_URI'])),
+                    'redirect' => $login_url,
                 ]);
                 return;
             }
@@ -163,10 +200,10 @@ class HAI_Questionnaire_Handler
             // Deduct 1 credit from account service
             $creditResult = SM_Credit_Controller::rest_use_credit_for_user($sm_user->id, $effectiveTopic, 1);
             if (empty($creditResult['success'])) {
-                // No credits → send to Offerings
+                // No credits → send to Offerings (on solmir.local)
                 wp_send_json_success([
                     'error'        => 'Not enough credits.',
-                    'purchase_url' => home_url('/offerings/'),
+                    'purchase_url' => self::external_url('/offerings/'),
                 ]);
                 return;
             }
